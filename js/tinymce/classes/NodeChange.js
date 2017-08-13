@@ -127,6 +127,10 @@ define("tinymce/NodeChange", [
 				node = selection.getStart() || root;
 				node = node.ownerDocument != editor.getDoc() ? editor.getBody() : node;
 
+				if (node.nodeName == 'IMAGE-GALLERY-IMG' || node.nodeName == 'IMAGE-GALLERY-TITLE') {
+					node = node.parentNode;
+				}
+
 				// Edge case for <p>|<img></p>
 				if (node.nodeName == 'IMG' && selection.isCollapsed()) {
 					node = node.parentNode;

@@ -320,7 +320,7 @@ define("tinymce/Formatter", [
 
 				if (elm) {
 					if (fmt.onformat) {
-						fmt.onformat(elm, fmt, vars, node);
+						fmt.onformat(dom, elm, fmt, vars, node);
 					}
 
 					each(fmt.styles, function(value, name) {

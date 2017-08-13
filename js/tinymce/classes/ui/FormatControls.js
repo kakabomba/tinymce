@@ -87,7 +87,7 @@ define("tinymce/ui/FormatControls", [
 			return formats;
 		}
 
-		function createFormatMenu() {
+		function createFormatMenu(menuFormats) {
 			var count = 0, newFormats = [];
 
 			var defaultStyleFormats = [
@@ -96,11 +96,20 @@ define("tinymce/ui/FormatControls", [
 					{title: 'Heading 2', format: 'h2'},
 					{title: 'Heading 3', format: 'h3'},
 					{title: 'Heading 4', format: 'h4'},
-					{title: 'Heading 5', format: 'h5'},
-					{title: 'Heading 6', format: 'h6'}
+					{title: 'Heading 5', format: 'h5'}
 				]},
 
-				{title: 'Inline', items: [
+				title: 'Size', items: [
+                        {title: 'Tiny', format: 'profireader_article_text_size_tiny'},
+                        {title: 'Little', format: 'profireader_article_text_size_little'},
+                        {title: 'Small', format: 'profireader_article_text_size_small'},
+                        {title: 'Normal', format: 'profireader_article_text_size_normal'},
+                        {title: 'Big', format: 'profireader_article_text_size_big'},
+                        {title: 'Large', format: 'profireader_article_text_size_large'},
+                        {title: 'Huge', format: 'profireader_article_text_size_huge'}
+                    ]
+                    },
+                    {title: 'Script', items: [
 					{title: 'Bold', icon: 'bold', format: 'bold'},
 					{title: 'Italic', icon: 'italic', format: 'italic'},
 					{title: 'Underline', icon: 'underline', format: 'underline'},
@@ -161,16 +170,20 @@ define("tinymce/ui/FormatControls", [
 			function createStylesMenu() {
 				var menu;
 
-				if (editor.settings.style_formats_merge) {
-					if (editor.settings.style_formats) {
-						menu = createMenu(defaultStyleFormats.concat(editor.settings.style_formats));
-					} else {
-						menu = createMenu(defaultStyleFormats);
-					}
-				} else {
-					menu = createMenu(editor.settings.style_formats || defaultStyleFormats);
+				if (menuFormats) {
+					menu = createMenu(menuFormats);
 				}
-
+                else {
+					if (editor.settings.style_formats_merge) {
+						if (editor.settings.style_formats) {
+							menu = createMenu(defaultStyleFormats.concat(editor.settings.style_formats));
+						} else {
+							menu = createMenu(defaultStyleFormats);
+						}
+					} else {
+						menu = createMenu(editor.settings.style_formats || defaultStyleFormats);
+					}
+				}
 				return menu;
 			}
 
@@ -421,6 +434,31 @@ define("tinymce/ui/FormatControls", [
 			text: 'Formats',
 			menu: formatMenu
 		});
+
+		if (editor.settings['pr_formats']) {
+			$.each(editor.settings['pr_formats'], function (button_name, menu) {
+                    if (menu.length === 1) {
+                        var custom_menu = createFormatMenu(menu[0]['items']);
+                        custom_menu = custom_menu;
+                    }
+                    else {
+                        var custom_menu = createFormatMenu(menu);
+                    }
+
+                    editor.addButton(button_name, {
+                        type: 'menubutton',
+                        text: button_name,
+                        menu: custom_menu
+                    });
+                });
+		}
+
+            //
+            //debugger;
+            //$.each(editor.settings['pr_formats'], function (button_name, menu) {
+            //
+            //});
+
 
 		editor.addButton('formatselect', function() {
 			var items = [], blocks = createFormats(editor.settings.block_formats ||

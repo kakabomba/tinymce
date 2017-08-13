@@ -122,7 +122,7 @@ define("tinymce/dom/ControlSelection", [
 			height = height < 5 ? 5 : height;
 
 			if (selectedElm.nodeName == "IMG" && editor.settings.resize_img_proportional !== false) {
-				proportional = !VK.modifierPressed(e);
+				proportional = VK.modifierPressed(e);
 			} else {
 				proportional = VK.modifierPressed(e) || (selectedElm.nodeName == "IMG" && selectedHandle[2] * selectedHandle[3] !== 0);
 			}
@@ -388,7 +388,7 @@ define("tinymce/dom/ControlSelection", [
 			});
 
 			controlElm = e.type == 'mousedown' ? e.target : selection.getNode();
-			controlElm = dom.$(controlElm).closest(isIE ? 'table' : 'table,img,hr')[0];
+			controlElm = dom.$(controlElm).closest(isIE ? 'table' : 'table,img,hr,image-gallery')[0];
 
 			if (isChildOrEqual(controlElm, rootElement)) {
 				disableGeckoResize();

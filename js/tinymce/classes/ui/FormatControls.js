@@ -98,8 +98,7 @@ define("tinymce/ui/FormatControls", [
 					{title: 'Heading 4', format: 'h4'},
 					{title: 'Heading 5', format: 'h5'}
 				]},
-
-				title: 'Size', items: [
+				{title: 'Size', items: [
                         {title: 'Tiny', format: 'profireader_article_text_size_tiny'},
                         {title: 'Little', format: 'profireader_article_text_size_little'},
                         {title: 'Small', format: 'profireader_article_text_size_small'},
@@ -107,8 +106,7 @@ define("tinymce/ui/FormatControls", [
                         {title: 'Big', format: 'profireader_article_text_size_big'},
                         {title: 'Large', format: 'profireader_article_text_size_large'},
                         {title: 'Huge', format: 'profireader_article_text_size_huge'}
-                    ]
-                    },
+                    ]},
                     {title: 'Script', items: [
 					{title: 'Bold', icon: 'bold', format: 'bold'},
 					{title: 'Italic', icon: 'italic', format: 'italic'},
@@ -172,8 +170,7 @@ define("tinymce/ui/FormatControls", [
 
 				if (menuFormats) {
 					menu = createMenu(menuFormats);
-				}
-                else {
+				} else {
 					if (editor.settings.style_formats_merge) {
 						if (editor.settings.style_formats) {
 							menu = createMenu(defaultStyleFormats.concat(editor.settings.style_formats));
@@ -435,30 +432,23 @@ define("tinymce/ui/FormatControls", [
 			menu: formatMenu
 		});
 
-		if (editor.settings['pr_formats']) {
-			$.each(editor.settings['pr_formats'], function (button_name, menu) {
-                    if (menu.length === 1) {
-                        var custom_menu = createFormatMenu(menu[0]['items']);
-                        custom_menu = custom_menu;
-                    }
-                    else {
-                        var custom_menu = createFormatMenu(menu);
-                    }
+		if (editor.settings.pr_formats) {
+			each(editor.settings.pr_formats,
+				function(menu, button_name) {
+				var custom_menu = null;
+				if (menu.length === 1) {
+					custom_menu = createFormatMenu(menu[0].items);
+				} else {
+					custom_menu = createFormatMenu(menu);
+				}
 
-                    editor.addButton(button_name, {
-                        type: 'menubutton',
-                        text: button_name,
-                        menu: custom_menu
-                    });
-                });
+				editor.addButton(button_name, {
+					type: 'menubutton',
+					text: button_name,
+					menu: custom_menu
+				});
+			});
 		}
-
-            //
-            //debugger;
-            //$.each(editor.settings['pr_formats'], function (button_name, menu) {
-            //
-            //});
-
 
 		editor.addButton('formatselect', function() {
 			var items = [], blocks = createFormats(editor.settings.block_formats ||

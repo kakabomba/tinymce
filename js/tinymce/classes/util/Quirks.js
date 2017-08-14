@@ -77,7 +77,7 @@ define("tinymce/util/Quirks", [
 			var selectionHtml, internalContent;
 
 			if (e.dataTransfer) {
-				if (editor.selection.isCollapsed() && ( e.target.tagName == 'IMG' || e.target.tagName == 'IMAGE-GALLERY')) {
+				if (editor.selection.isCollapsed() && (e.target.tagName == 'IMG' || e.target.tagName == 'IMAGE-GALLERY')) {
 					selection.select(e.target);
 				}
 
